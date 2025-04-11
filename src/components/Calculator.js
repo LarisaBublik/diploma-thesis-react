@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const Calculator = () => {
   const [area, setArea] = useState(0);
-  const [style, setStyle] = useState('modern');
+  const [style, setStyle] = useState("modern");
   const [services, setServices] = useState({
     lighting: false,
     furniture: false,
     planning: false,
     materials: false,
-    supervision: false
+    supervision: false,
   });
-
 
   useEffect(() => {
     calculateTotal();
@@ -22,7 +21,7 @@ const Calculator = () => {
     const styleMultiplier = {
       modern: 1,
       classic: 1.2,
-      luxury: 1.5
+      luxury: 1.5,
     }[style];
 
     const servicePrices = {
@@ -30,7 +29,7 @@ const Calculator = () => {
       furniture: 10000,
       planning: 15000,
       materials: 20000,
-      supervision: 25000
+      supervision: 25000,
     };
 
     const activeServices = Object.entries(services)
@@ -38,33 +37,30 @@ const Calculator = () => {
       .map(([key]) => servicePrices[key]);
 
     const servicesTotal = activeServices.reduce((acc, cur) => acc + cur, 0);
-    
+
     return Math.round(basePrice * styleMultiplier + servicesTotal);
   };
 
   return (
-    
     <div className="container my-5">
-          <Link to="/" className="btn btn-outline-secondary mb-4">
+      <Link to="/" className="btn btn-outline-secondary mb-4">
         ← Вернуться на главную
       </Link>
       <h1>Калькулятор проекта</h1>
-      
-  
+
       <div className="mb-3">
         <label>Площадь помещения (м²):</label>
-        <input 
-          type="number" 
+        <input
+          type="number"
           className="form-control"
           value={area}
           onChange={(e) => setArea(Number(e.target.value))}
         />
       </div>
 
-    
       <div className="mb-3">
         <label>Стиль оформления:</label>
-        <select 
+        <select
           className="form-select"
           value={style}
           onChange={(e) => setStyle(e.target.value)}
@@ -75,7 +71,6 @@ const Calculator = () => {
         </select>
       </div>
 
-   
       <div className="mb-3 ">
         <h5>Дополнительные услуги:</h5>
         {Object.entries(services).map(([key, value]) => (
@@ -85,29 +80,31 @@ const Calculator = () => {
               className="form-check-input"
               id={key}
               checked={value}
-              onChange={(e) => setServices(prev => ({
-                ...prev,
-                [key]: e.target.checked
-              }))}
+              onChange={(e) =>
+                setServices((prev) => ({
+                  ...prev,
+                  [key]: e.target.checked,
+                }))
+              }
             />
             <label className="form-check-label" htmlFor={key}>
-              {{
-                lighting: 'Проектирование освещения (+10 000₽)',
-                furniture: 'Подбор мебели (+10 000₽)',
-                planning: 'Планировка помещений (+15 000₽)',
-                materials: 'Подбор материалов (+20 000₽)',
-                supervision: 'Авторский надзор (+25 000₽)'
-              }[key]}
+              {
+                {
+                  lighting: "Проектирование освещения (+10 000₽)",
+                  furniture: "Подбор мебели (+10 000₽)",
+                  planning: "Планировка помещений (+15 000₽)",
+                  materials: "Подбор материалов (+20 000₽)",
+                  supervision: "Авторский надзор (+25 000₽)",
+                }[key]
+              }
             </label>
           </div>
         ))}
       </div>
 
-   
       <div className="mt-4">
         <h3>Итоговая стоимость: {calculateTotal().toLocaleString()}₽</h3>
       </div>
-
     </div>
   );
 };
